@@ -1,14 +1,15 @@
 {
-  "name": "backend",
+  "name": "orbit-backend",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Production-inspired AI API Gateway",
   "dependencies": {
     "fastify": "^5.10.0"
   },
