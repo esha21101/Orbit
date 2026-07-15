@@ -11,7 +11,7 @@
     "target": "esnext",
     "types": ["node"],
 
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     // For nodejs:
     // "lib": ["esnext"],
