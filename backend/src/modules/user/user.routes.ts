@@ -4,9 +4,18 @@ import { UserService } from "./user.service.js";
 const userService = new UserService();
 
 export async function userRoutes(app: FastifyInstance) {
-  app.get("/users", async (request, reply) => {
-    const users = await userService.getAllUsers();
+  app.get("/users", async () => {
+    return userService.getAllUsers();
+  });
 
-    return users;
+  app.post("/users", async (request, reply) => {
+    const { name, email } = request.body as {
+      name: string;
+      email: string;
+    };
+
+    const user = await userService.createUser(name, email);
+
+    return reply.status(201).send(user);
   });
 }
