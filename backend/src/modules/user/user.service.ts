@@ -1,4 +1,7 @@
 import { UserRepository } from "./user.repository.js";
+import { BadRequestError } from "../../common/errors/bad-request-error.js";
+import { ConflictError } from "../../common/errors/conflict-error.js";
+
 
 export class UserService {
   private userRepository = new UserRepository();
@@ -8,13 +11,16 @@ export class UserService {
   }
 
   async createUser(name: string, email: string) {
-    // Business validation
-    if (!name.trim()) {
-      throw new Error("Name cannot be empty");
-    }
-
-    // We'll add email validation and duplicate checks later
-
-    return this.userRepository.create(name, email);
+  if (!name.trim()) {
+    throw new BadRequestError("Name cannot be empty");
   }
+
+  const existingUser = await this.userRepository.findByEmail(email);
+
+  if (existingUser) {
+    throw new ConflictError("Email already exists");
+  }
+
+  return this.userRepository.create(name, email);
+}
 }

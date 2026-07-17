@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import { userRoutes } from "./modules/user/user.routes.js";
+import { errorHandlerPlugin } from "./plugins/error-handler.js";
 
 const app = Fastify({
   logger: true,
@@ -12,6 +13,7 @@ app.get("/health", async () => {
   };
 });
 
+app.register(errorHandlerPlugin);
 app.register(userRoutes);
 
 export default app;
