@@ -1,7 +1,7 @@
 import { UserRepository } from "./user.repository.js";
 import { BadRequestError } from "../../common/errors/bad-request-error.js";
 import { ConflictError } from "../../common/errors/conflict-error.js";
-
+import { CreateUserDto } from "./dto/create-user.dto.js";
 
 export class UserService {
   private userRepository = new UserRepository();
@@ -10,17 +10,17 @@ export class UserService {
     return this.userRepository.findAll();
   }
 
-  async createUser(name: string, email: string) {
-  if (!name.trim()) {
-    throw new BadRequestError("Name cannot be empty");
+  async createUser(user: CreateUserDto) {
+    if (!user.name.trim()) {
+      throw new BadRequestError("Name cannot be empty");
+    }
+
+    const existingUser = await this.userRepository.findByEmail(user.email);
+
+    if (existingUser) {
+      throw new ConflictError("Email already exists");
+    }
+
+    return this.userRepository.create(user);
   }
-
-  const existingUser = await this.userRepository.findByEmail(email);
-
-  if (existingUser) {
-    throw new ConflictError("Email already exists");
-  }
-
-  return this.userRepository.create(name, email);
-}
 }

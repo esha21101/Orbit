@@ -1,16 +1,14 @@
 import prisma from "../../db/prisma.js";
+import { CreateUserDto } from "./dto/create-user.dto.js";
 
 export class UserRepository {
   async findAll() {
     return prisma.user.findMany();
   }
 
-  async create(name: string, email: string) {
+  async create(user: CreateUserDto) {
   return prisma.user.create({
-    data: {
-      name,
-      email,
-    },
+    data: user,
   });
 }
 
