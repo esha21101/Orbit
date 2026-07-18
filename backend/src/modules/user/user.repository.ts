@@ -9,6 +9,13 @@ export class UserRepository {
   async create(user: CreateUserDto) {
   return prisma.user.create({
     data: user,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
 }
 

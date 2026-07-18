@@ -12,10 +12,12 @@
   "description": "Production-inspired AI API Gateway",
   "dependencies": {
     "@prisma/client": "^6.19.3",
+    "bcrypt": "^6.0.0",
     "fastify": "^5.10.0",
     "prisma": "^6.19.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^26.1.1",
     "tsx": "^4.23.1",
     "typescript": "^7.0.2"
