@@ -21,4 +21,15 @@ export class ApiKeyRepository {
     },
   });
 }
+async revoke(id: string, userId: string) {
+  return prisma.apiKey.updateMany({
+    where: {
+      id,
+      userId,
+    },
+    data: {
+      isActive: false,
+    },
+  });
+}
 }

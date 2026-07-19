@@ -31,4 +31,20 @@ export async function apiKeyRoutes(app: FastifyInstance) {
     return apiKeyService.getApiKeys(request.user.userId);
   }
 );
+app.patch(
+  "/api-keys/:id/revoke",
+  {
+    preHandler: authMiddleware,
+  },
+  async (request) => {
+    const { id } = request.params as {
+      id: string;
+    };
+
+    return apiKeyService.revokeApiKey(
+      id,
+      request.user.userId
+    );
+  }
+);
 }

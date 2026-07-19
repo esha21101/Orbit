@@ -22,6 +22,26 @@ export class ApiKeyService {
 
 
   async getApiKeys(userId: string) {
-  return this.repository.findByUserId(userId);
+  const apiKeys = await this.repository.findByUserId(userId);
+
+  return apiKeys.map((key) => ({
+    id: key.id,
+    name: key.name,
+    isActive: key.isActive,
+    createdAt: key.createdAt,
+    lastUsedAt: key.lastUsedAt,
+  }));
+}
+
+async revokeApiKey(id: string, userId: string) {
+  const result = await this.repository.revoke(id, userId);
+
+  if (result.count === 0) {
+    throw new Error("API key not found");
+  }
+
+  return {
+    message: "API key revoked successfully",
+  };
 } 
 }
