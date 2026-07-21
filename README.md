@@ -1,41 +1,67 @@
 # 🚀 Orbit
 
-Orbit is an AI API Gateway that provides secure authentication and API key management with a clean, modular backend architecture. It is designed to serve as the foundation for applications that need to manage and route AI API requests securely.
+Orbit is a **production-ready backend foundation for building AI API Gateways**. It provides secure authentication, API key management, and a clean layered architecture designed to support future AI provider integrations such as OpenAI, Gemini, and Anthropic.
 
-Built with Fastify, TypeScript, Prisma, and PostgreSQL.
+Built with **Fastify**, **TypeScript**, **Prisma**, and **PostgreSQL**.
 
 ---
 
-## Features
+## 🌐 Live Demo
 
-- JWT authentication
-- User registration and login
-- Protected routes
-- Secure API key generation
-- SHA-256 API key hashing
-- API key listing and revocation
-- Centralized error handling
-- Repository–Service architecture
+**Base URL**
+
+https://orbit-u954.onrender.com
+
+> **Note:** The service is hosted on Render's free tier and may take **30–60 seconds** to wake up after inactivity.
+
+---
+
+# ✨ Features
+
+- JWT Authentication
+- User Registration & Login
+- Protected Routes
+- Secure API Key Generation
+- SHA-256 API Key Hashing
+- API Key Listing & Revocation
+- Centralized Error Handling
+- Repository–Service Architecture
 - Prisma ORM with PostgreSQL
+- Docker-based Local Development
+- Production Deployment on Render
 
 ---
 
-## Tech Stack
+# ⭐ Highlights
+
+- Production-ready REST API
+- Secure JWT Authentication
+- Layered Repository–Service Architecture
+- SHA-256 API Key Storage
+- Prisma ORM + PostgreSQL
+- Dockerized Development Environment
+- Live Deployment on Render
+
+---
+
+# 🛠 Tech Stack
 
 | Technology | Purpose |
 |------------|---------|
-| Fastify | Web framework |
-| TypeScript | Language |
+| Fastify | Web Framework |
+| TypeScript | Programming Language |
 | Prisma | ORM |
 | PostgreSQL | Database |
 | JWT | Authentication |
-| bcrypt | Password hashing |
+| bcrypt | Password Hashing |
 | Node.js | Runtime |
-| Docker | Local database environment |
+| Docker | Local Database Environment |
+| Render | Backend Hosting |
+| Neon | Managed PostgreSQL |
 
 ---
 
-## Architecture
+# 🏛 Architecture
 
 ```
                     Client
@@ -44,10 +70,13 @@ Built with Fastify, TypeScript, Prisma, and PostgreSQL.
                Fastify Routes
                        │
                        ▼
+          Authentication Middleware
+                       │
+                       ▼
                    Services
                        │
                        ▼
-                 Repositories
+                Repositories
                        │
                        ▼
                   Prisma ORM
@@ -56,153 +85,172 @@ Built with Fastify, TypeScript, Prisma, and PostgreSQL.
                   PostgreSQL
 ```
 
-The project follows a layered architecture where each layer has a single responsibility.
+The project follows a **layered architecture**, where each layer has a single responsibility.
 
 - **Routes** handle HTTP requests and responses.
+- **Middleware** performs authentication and request validation.
 - **Services** contain business logic.
 - **Repositories** interact with the database.
 - **Prisma** maps application models to PostgreSQL.
 
 ---
 
-## Project Structure
+# 📂 Project Structure
 
 ```
 backend/
+├── prisma/
 ├── src/
 │   ├── common/
 │   │   └── errors/
 │   ├── db/
 │   ├── middleware/
 │   ├── modules/
-│   │   ├── user/
-│   │   └── api-key/
+│   │   ├── api-key/
+│   │   └── user/
 │   ├── plugins/
 │   ├── types/
 │   ├── utils/
 │   ├── app.ts
 │   └── server.ts
-├── prisma/
 ├── package.json
 └── README.md
 ```
 
 ---
 
-## API Endpoints
+# 🔗 API Endpoints
 
-### Authentication
+## Authentication
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
 | POST | `/users` | Register a new user |
 | POST | `/login` | Authenticate a user |
-| GET | `/me` | Get the authenticated user's profile |
+| GET | `/me` | Get authenticated user's profile |
 
-### API Keys
+---
+
+## API Keys
 
 | Method | Endpoint | Description |
 |---------|----------|-------------|
 | POST | `/api-keys` | Generate a new API key |
-| GET | `/api-keys` | List all API keys for the authenticated user |
+| GET | `/api-keys` | List API keys |
 | PATCH | `/api-keys/:id/revoke` | Revoke an API key |
 
 ---
 
-## Getting Started
+# 🚀 Getting Started
 
-### 1. Clone the repository
+## 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/orbit.git
-cd orbit/backend
+git clone https://github.com/esha21101/Orbit.git
+cd Orbit/backend
 ```
 
-### 2. Install dependencies
+---
+
+## 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Create a `.env` file
+---
+
+## 3. Configure environment variables
+
+Create a `.env` file.
 
 ```env
 DATABASE_URL="postgresql://..."
 JWT_SECRET="your-secret-key"
 ```
 
-### 4. Start PostgreSQL
+---
+
+## 4. Start PostgreSQL
 
 ```bash
 docker compose up -d
 ```
 
-### 5. Run Prisma migrations
+---
+
+## 5. Run Prisma migrations
 
 ```bash
 npx prisma migrate dev
 ```
 
-### 6. Start the development server
+---
+
+## 6. Start the development server
 
 ```bash
 npm run dev
 ```
 
-The API will be available at:
+The API will be available at
 
 ```
 http://localhost:3000
 ```
 
-Health check:
+---
 
-```
-GET /health
-```
+# 🧠 Design Decisions
+
+## Layered Architecture
+
+Business logic is separated from database operations using the **Repository–Service** pattern. This improves maintainability, testability, and scalability.
 
 ---
 
-## Design Decisions
+## Secure Password Storage
 
-### Layered Architecture
+User passwords are securely hashed using **bcrypt** before being stored.
 
-Business logic is separated from database operations using the Repository–Service pattern. This keeps each layer focused on a single responsibility and makes the codebase easier to extend and maintain.
+---
 
-### Secure Password Storage
+## Secure API Keys
 
-User passwords are hashed with **bcrypt** before being stored.
+Generated API keys are displayed only once.
 
-### Secure API Keys
+Only their **SHA-256 hash** is stored in the database.
 
-Generated API keys are shown only once. The database stores only their SHA-256 hash, never the original key.
+---
 
-### Response Shaping
+## Response Shaping
 
 API responses expose only the fields required by the client instead of returning raw database records.
 
-### Centralized Error Handling
+---
 
-Application errors are handled through a global error handler, allowing consistent HTTP responses across all endpoints.
+## Centralized Error Handling
+
+Application errors are handled through a global error handler, ensuring consistent HTTP responses across all endpoints.
 
 ---
 
-## Roadmap
+# 🛣 Roadmap
 
-- [ ] Delete API keys
-- [ ] API key expiration
-- [ ] Rate limiting
-- [ ] Usage analytics
-- [ ] Request logging
-- [ ] AI provider management
-- [ ] Redis caching
-- [ ] Cost tracking
-- [ ] Admin dashboard
-- [ ] CI/CD pipeline
-- [ ] Production deployment
+- [ ] Delete API Keys
+- [ ] API Key Expiration
+- [ ] Rate Limiting
+- [ ] Redis Caching
+- [ ] Usage Analytics
+- [ ] Request Logging
+- [ ] Retry & Failover
+- [ ] Multi-provider AI Routing
+- [ ] Cost Tracking
+- [ ] Admin Dashboard
+- [ ] CI/CD Pipeline
 
 ---
 
-## License
+# 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**.
