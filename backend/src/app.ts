@@ -10,8 +10,11 @@ const app = Fastify({
 app.get("/", async () => {
   return {
     name: "Orbit",
-    message: "AI API Gateway is running 🚀",
-    documentation: "/health",
+    description: "Production-ready AI API Gateway backend",
+    status: "healthy",
+    version: "1.0.0",
+    health: "/health",
+    repository: "https://github.com/esha21101/Orbit",
   };
 });
 
