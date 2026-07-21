@@ -7,6 +7,14 @@ const app = Fastify({
   logger: true,
 });
 
+app.get("/", async () => {
+  return {
+    name: "Orbit",
+    message: "AI API Gateway is running 🚀",
+    documentation: "/health",
+  };
+});
+
 app.get("/health", async () => {
   return {
     status: "OK",
